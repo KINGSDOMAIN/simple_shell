@@ -8,7 +8,7 @@
 void printmsg(void)
 {
 
-const char *message = "This message to the output stream of the computer \n";
+char *message = "This message to the output stream of the computer \n";
 while (*message != '\0')
 {
 putchar(*message);
