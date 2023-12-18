@@ -110,10 +110,10 @@ typedef struct builtin
 
 
 /* shloop.c function prototype */
-int hsh(list_str *, char **);
-int builtin_check(list_str *);
 void cmd_check(list_str *);
 void cmd_fork(list_str *);
+int hsh(list_str *, char **);
+int builtin_check(list_str *);
 
 /* parser.c function prototype */
 char *path_finder(list_str *, char *, char *);
@@ -167,7 +167,7 @@ int atoi(char *);
 /* errors1.c function prototype */
 int err1(char *);
 void display_error(list_str *, char *);
-int e_print(int, int);
+int err_print(int, int);
 char *conv_num(long int, int, int);
 void comment_rem(char *);
 
@@ -186,9 +186,9 @@ int _getline(list_str *, char **, size_t *);
 void handler_signal(int);
 
 /* getinfo.c function prototype */
-void struct_clear(list_str *);
-void struc_set(list_str *, char **);
-void struct_free(list_str *, int);
+void data_clear(list_str *);
+void data_set(list_str *, char **);
+void data_free(list_str *, int);
 
 /* environ.c function prototype */
 char *env_get(list_str *, const char *);
