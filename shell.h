@@ -81,9 +81,9 @@ typedef struct infodata
 	int err_code;
 	int err_count_flag;
 	char *file_name;
-	list_str *envir1;
-	list_str *history;
-	list_str *alias;
+	data_str *envir1;
+	data_str *history;
+	data_str *alias;
 	char **envir2;
 	int env_state;
 	int cmd_status;
@@ -138,7 +138,7 @@ char *cat_str(char *, char *);
 /* string1.c function prototype */
 char *copy_str(char *, char *);
 char *duplicate_str(const char *);
-void puts(char *);
+void _puts(char *);
 int _putchar(char);
 
 /* exits.c prototype */
