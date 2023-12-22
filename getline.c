@@ -46,7 +46,7 @@ ssize_t input_stream(list_str *data, char **mybuf, size_t *mylen)
 			}
 			data->err_count_flag = 1;
 			comment_rem(*mybuf);
-			hist_list(data, *mybuf, data->history_count++);
+			list_hist(data, *mybuf, data->history_count++);
 			
 			{
 				*mylen = rr;
@@ -68,10 +68,10 @@ ssize_t get_input_stream(list_str *data)
 	static char *mybuf;
 	static size_t a, b, mylen;
 	ssize_t rr = 0;
-	char **buferf = &(data->rg), *p;
+	char **buffer = &(data->ag), *p;
 
 	_putchar(BUF_FLUSH);
-	rr = input_buf(info, &buf, &len);
+	rr = input_stream(data, &mybuf, &mylen);
 	if (rr == -1)
 		return (-1);
 	if (mylen)
@@ -91,14 +91,14 @@ ssize_t get_input_stream(list_str *data)
 		if (a >= mylen)
 		{
 			a = mylen = 0;
-			data->cmd_operator = CMD_NORM;
+			data->cmd_operator = COMD_NORMAL;
 		}
 
-		*mybuf = p;
-		return (_strlen(p));
+		*buffer = p;
+		return (str_len(p));
 	}
 
-	*buferf = buf;
+	*buffer = mybuf;
 	return (rr);
 }
 
@@ -132,26 +132,26 @@ ssize_t read_input_buf(list_str *data, char *mybuf, size_t *a)
  */
 int _getline(list_str *data, char **ptr, size_t *length)
 {
-	static char buf[READ_BUF_SIZE];
+	static char mybuf[READ_BUF_SIZE];
 	static size_t a, mylen;
-	size_t b;
+	size_t gg;
 	ssize_t rr = 0, bb = 0;
 	char *pp = NULL, *pp_new = NULL, *cc;
 
 	pp = *ptr;
 	if (pp && length)
 		bb = *length;
-	if (a == len)
+	if (a == mylen)
 		a = mylen = 0;
 
 	rr = read_input_buf(data, mybuf, &mylen);
-	if (r == -1 || (rr == 0 && mylen == 0))
+	if (rr == -1 || (rr == 0 && mylen == 0))
 		return (-1);
 
-	cc = _strchr(mybuf + a, '\n');
+	cc = char_str(mybuf + a, '\n');
 	gg = cc ? 1 + (unsigned int)(cc - mybuf) : mylen;
-	pp_new = _realloc(pp, bb, bb ? bb + gg : gg + 1);
-	if (!pp_new) /* malloc failed */
+	pp_new = realloc(pp, bb ? bb + gg : gg + 1);
+	if (!pp_new) /* No success on Malloc process */
 		return (pp ? free(pp), -1 : -1);
 
 	if (bb)

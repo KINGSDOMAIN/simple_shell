@@ -34,20 +34,20 @@
 #define HIST_FILE	".shell_history"
 #define HIST_MAX	4096
 
-extern char **environ;
+extern char **envcopy;
 
 
 /**
  * struct liststring - define singly linked list
- * @number: number input
- * @string: string input
+ * @mynum: number input
+ * @mystr: string input
  * @next_node: pointer to next node in the list
  */
 typedef struct liststring
 {
-	int number;
-	char *string;
-	struct liststring *nex_nodet;
+	int mynum;
+	char *mystr;
+	struct liststring *next_node;
 } data_str;
 
 /**
@@ -60,11 +60,11 @@ typedef struct liststring
  *@err_code: error code for the exits function
  *@err_count_flag: if ON, then coun the number of lines
  *@file_name: file name of the program 
- *@envir1: copy of environment var 
- *@envir2: modified copy of envir1
+ *@envcopy: copy of environment var 
+ *@envmodcopy: modified copy of envir1
  *@history: the history of nodes
  *@alias: node alias
- *@env_state: is ON?, the change state
+ *@env_state_changed: is ON?, the change state
  *@cmd_status: status of executed command that is returned
  *@buff_comd: ON if state changed
  *@cmd_operator: cmd operators ||, &&, ;
@@ -81,11 +81,11 @@ typedef struct infodata
 	int err_code;
 	int err_count_flag;
 	char *file_name;
-	data_str *envir1;
+	data_str *envcopy;
 	data_str *history;
 	data_str *alias;
-	char **envir2;
-	int env_state;
+	char **envmodcopy;
+	int env_state_changed;
 	int cmd_status;
 	char **buff_comd;
 	int cmd_operator;
@@ -93,9 +93,11 @@ typedef struct infodata
 	int history_count;
 } list_str;
 
+
 #define INFO_INIT \
-{NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, 0, 0, 0, NULL, \
+{NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, \
 	0, 0, 0}
+
 
 /**
  *struct builtin - function for built in string commands
@@ -144,7 +146,7 @@ int _putchar(char);
 /* exits.c prototype */
 char *copystr(char *, char *, int);
 char *catstr(char *, char *, int);
-char char_str(char *, char);
+char *char_str(char *, char);
 
 /* tokenizer.c function prototype */
 char **tok1(char *, char *);
@@ -162,7 +164,7 @@ int freed(void **);
 int interactive(list_str *);
 int check_delim(char, char *);
 int check_alpha(int);
-int atoi(char *);
+int strtoint(char *);
 
 /* errors1.c function prototype */
 int err1(char *);
@@ -210,17 +212,17 @@ int list_hist(list_str *data, char *buf, int linecount);
 int hist_relist(list_str *data);
 
 /* lists.c function prototype */
-data_str *node_sum(data_str **, const char *, int);
-data_str *close_node_sum(data_str **, const char *, int);
+data_str *node_add(data_str **, const char *, int);
+data_str *close_node_add(data_str **, const char *, int);
 size_t print_data_list(const data_str *);
 int node_index_del(data_str **, unsigned int);
 void list_free(data_str **);
 
 /* lists1.c function prototype */
 size_t len_data(const data_str *);
-char **string_data(data_str *);
-size_t data_print(const data_str *);
-list_t *start_node_(data_str *, char *, char);
+char **list_string(data_str *);
+size_t list_print(const data_str *);
+data_str *start_node_(data_str *, char *, char);
 ssize_t get_index_of_node(data_str *, data_str *);
 
 /* vars.c function prototype */

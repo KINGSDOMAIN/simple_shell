@@ -9,7 +9,7 @@
  */
 int main(int ac, char **av)
 {
-	String_input string[] = { INFO_INIT };
+	list_str data[] = { INFO_INIT };
 	int fd = 2;
 
 	asm ("mov %1, %0\n\t"
@@ -35,10 +35,10 @@ int main(int ac, char **av)
 			}
 			return (EXIT_FAILURE);
 		}
-		data->readfd = fd;
+		data->read_fd = fd;
 	}
-	env_populate(string);
-	hist_read(string);
-	hsh(string, av);
+	env_populate(data);
+	hist_read(data);
+	hsh(data, av);
 	return (EXIT_SUCCESS);
 }

@@ -31,7 +31,7 @@ void struct_set(list_str *data, char **av)
 			data->av = malloc(sizeof(char *) * 2);
 			if (data->av)
 			{
-				data->av[0] = _strdup(data->ag);
+				data->av[0] = duplicate_str(data->ag);
 				data->av[1] = NULL;
 			}
 		}
@@ -40,7 +40,7 @@ void struct_set(list_str *data, char **av)
 		data->ac = i;
 
 		alias_replace(data);
-		vars_replace(data);
+		var_replace(data);
 	}
 }
 
@@ -56,16 +56,16 @@ void struct_free(list_str *data, int allfree)
 	data->path = NULL;
 	if (allfree)
 	{
-		if (!data->buff_cmd)
+		if (!data->buff_comd)
 			free(data->ag);
-		if (data->envir1)
-			list_free(&(data->envir1));
+		if (data->envcopy)
+			list_free(&(data->envcopy));
 		if (data->history)
-			list_free(&(info->history));
+			list_free(&(data->history));
 		if (data->alias)
 			list_free(&(data->alias));
-		free_mem(data->envir2);
-			data->envir2 = NULL;
+		free_mem(data->envmodcopy);
+			data->envmodcopy = NULL;
 		freed((void **)data->buff_comd);
 		if (data->read_fd > 2)
 			close(data->read_fd);
